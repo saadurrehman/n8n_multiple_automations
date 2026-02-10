@@ -1,0 +1,197 @@
+{
+  "name": "Weather Fetcher",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "29484f10-afe9-46b4-bcb6-7769ac032658",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "url": "=http://api.weatherapi.com/v1/current.json?key=684b06e7fbf4416489a110532260902&q=Lahore&aqi=no",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        208,
+        0
+      ],
+      "id": "1c1dd3ce-91b0-43d2-89b7-544e40969a93",
+      "name": "HTTP Request"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "0080b7d3-6be9-4d50-9652-d933e3bfc205",
+              "leftValue": "={{ $json.location.localtime }}",
+              "rightValue": "",
+              "operator": {
+                "type": "dateTime",
+                "operation": "exists",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        416,
+        0
+      ],
+      "id": "bc7c088e-11e8-4cb5-aa4a-404a39c26979",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "sendTo": "aliehazahid4@gmail.com",
+        "subject": "Today's Date ",
+        "message": "HI Adrian , here is todays date",
+        "options": {
+          "appendAttribution": true
+        }
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        848,
+        64
+      ],
+      "id": "86084550-23c1-4f61-aea4-4d1361dcebde",
+      "name": "Send a message",
+      "webhookId": "c99da684-203c-4cba-b829-0b0fd1c84305",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "VoH8HTdVi7gBubNP",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "mode": "raw",
+        "jsonOutput": "={\n  \"my_field_1\": \"v{{ $json.location.name }}alue\",\n  \"my_field_2\": 1\n}\n",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        624,
+        -96
+      ],
+      "id": "33c44821-a5f2-4afe-b056-6beafc8f3ced",
+      "name": "todays date"
+    },
+    {
+      "parameters": {
+        "mode": "raw",
+        "jsonOutput": "={\n  \"my_field_1\": \"v{{ $json.location.name }}alue\",\n  \"my_field_2\": 1\n}\n",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        640,
+        64
+      ],
+      "id": "243c12a1-81d0-4a69-8639-27bf89a71782",
+      "name": "past date"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "todays date",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "past date",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "past date": {
+      "main": [
+        [
+          {
+            "node": "Send a message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "todays date": {
+      "main": [
+        [
+          {
+            "node": "Send a message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "versionId": "3350c270-05ef-48c6-b6c3-805b34d3cc9e",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "8d473eafdf3f44f0035ef7a59fbefc47100c633e2d84c296e0bcff58db31eae0"
+  },
+  "id": "e-51xLXC-KqOEG38W99N3",
+  "tags": []
+}
