@@ -1,0 +1,238 @@
+{
+  "name": "Linkedinpost",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "triggerAtMinute": 5
+            },
+            {
+              "daysInterval": 2,
+              "triggerAtHour": 14,
+              "triggerAtMinute": 2
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.3,
+      "position": [
+        -48,
+        -128
+      ],
+      "id": "ac01675f-3c74-47a5-b00b-e07a0d3eb651",
+      "name": "Schedule Trigger"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "3207bcf2-017b-40d4-8142-b95ffe56ea39",
+              "name": "Linkedin Page Name",
+              "value": "smart Bot Automation",
+              "type": "string"
+            },
+            {
+              "id": "9ca0b217-f3cb-4822-a8cb-760e431c97d5",
+              "name": "Topic 1",
+              "value": "Innovation in Tech",
+              "type": "string"
+            },
+            {
+              "id": "3473ae1c-b4a8-418f-a2fc-492bcc9d4f82",
+              "name": "Topic2",
+              "value": "Remote Work Productivity",
+              "type": "string"
+            },
+            {
+              "id": "d0522e5e-a645-4179-bbf4-2c792c448e8b",
+              "name": "Topic 3",
+              "value": "AI in Education",
+              "type": "string"
+            },
+            {
+              "id": "fce96746-2b5b-4050-bef0-252a2f3ae5f8",
+              "name": "Topic 4",
+              "value": "Sustainable Business Practices",
+              "type": "string"
+            },
+            {
+              "id": "9d3cf541-3b9f-45a4-a0d9-103f227722c3",
+              "name": "Topic 5",
+              "value": "Personal Branding on LinkedIn",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        208,
+        0
+      ],
+      "id": "d2d3a953-68ed-4173-8fea-681aeb8193dd",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "chatgpt-4o-latest",
+          "mode": "list",
+          "cachedResultName": "CHATGPT-4O-LATEST"
+        },
+        "responses": {
+          "values": [
+            {
+              "content": "=Write a professional LinkedIn post in exactly 10 lines based on this topic: {{$json[\"value\"]}}. \nDo not use Markdown, asterisks (*), or any special formatting. Plain text only.\n"
+            }
+          ]
+        },
+        "builtInTools": {},
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 2.1,
+      "position": [
+        416,
+        0
+      ],
+      "id": "9bf480a5-ebb0-4ad2-be00-5ce886d05ea7",
+      "name": "Message a model",
+      "credentials": {
+        "openAiApi": {
+          "id": "PxwgExsYGEl0jGBv",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -80,
+        32
+      ],
+      "id": "706d788a-df0b-44db-a501-d3b32fa0dc01",
+      "name": "Testing trigger"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "bbcd7717-eead-4cc2-9831-6a7c1393d2aa",
+              "name": "value",
+              "value": "Test Topic for LinkedIn",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        224,
+        128
+      ],
+      "id": "601a5e6a-3b60-4d58-bdfa-d3842804a8e7",
+      "name": "Edit Fields1"
+    },
+    {
+      "parameters": {
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.linkedIn",
+      "typeVersion": 1,
+      "position": [
+        768,
+        0
+      ],
+      "id": "75522865-c641-4310-9bdc-4e55db6bf173",
+      "name": "Create a post",
+      "credentials": {
+        "linkedInOAuth2Api": {
+          "id": "PcldQgYCMxPeJxwo",
+          "name": "LinkedIn account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Message a model",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Message a model": {
+      "main": [
+        [
+          {
+            "node": "Create a post",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Testing trigger": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields1": {
+      "main": [
+        [
+          {
+            "node": "Message a model",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "versionId": "10cc512b-360f-479d-88dc-93ed89efcba0",
+  "meta": {
+    "instanceId": "8d473eafdf3f44f0035ef7a59fbefc47100c633e2d84c296e0bcff58db31eae0"
+  },
+  "id": "oeuB5K7lLF4ydcpG0midi",
+  "tags": []
+}

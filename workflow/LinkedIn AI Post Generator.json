@@ -1,0 +1,141 @@
+{
+  "name": "LinkedIn AI Post Generator",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "ba9d477f-5f89-4d25-b964-1cafe478f47d",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "c6425228-39a2-4a8a-96ac-275e8c93a9a5",
+              "name": "title",
+              "value": "Why AI is changing Real Estate in 2026",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        176,
+        0
+      ],
+      "id": "be09cb66-edd4-4b8d-8dee-973d54213fec",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "resource": "conversation",
+        "messages": {
+          "values": [
+            {
+              "role": "system",
+              "content": "💡 Keep learning.\n🚀 Embrace challenges.\n🤝 Collaborate & grow.\n📈 Focus on progress.\n🌱 Invest in yourself.\n💬 Share knowledge.\n🌐 Build connections.\n🎯 Deliver value.\n💪 Stay consistent.\n✨ Keep pushing forward."
+            },
+            {
+              "content": "=Write a professional LinkedIn post based on this title:\n\n{{$json.title}}\n\nTone:\n- Professional\n- Engaging\n- 5–6 lines\n- Include emojis\n- Add 3 relevant hashtags\n"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 2.1,
+      "position": [
+        384,
+        0
+      ],
+      "id": "5e58643f-f596-4de0-b7a1-e40c04dcbb4c",
+      "name": "Create a conversation",
+      "credentials": {
+        "openAiApi": {
+          "id": "PxwgExsYGEl0jGBv",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sendTo": "aliehazahid4@gmail.com",
+        "subject": "=linkedin post",
+        "message": "=hi, i am here to assist you with linkedin daily post updated\nWe’re excited to have you on board.\n\nThank you for joining our community.\n\nYour journey with us starts today.\n\nExplore the features we offer to simplify your work.\n\nStay updated with our latest news and updates.\n\nWe’re here to support you every step of the way.\n\nYour feedback is valuable to help us improve.\n\nFeel free to reach out with any questions.\n\nLet’s achieve great things together.\n\nWelcome again, and happy exploring!",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        592,
+        0
+      ],
+      "id": "82e5c056-d58f-4970-b738-cd27f68f32b3",
+      "name": "Send a message",
+      "webhookId": "4fcf858f-e49b-453b-ad67-517d09c24146",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "VoH8HTdVi7gBubNP",
+          "name": "Gmail account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Create a conversation",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create a conversation": {
+      "main": [
+        [
+          {
+            "node": "Send a message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "versionId": "f27dad98-17cf-4772-86fb-eb3cd62b60e5",
+  "meta": {
+    "instanceId": "8d473eafdf3f44f0035ef7a59fbefc47100c633e2d84c296e0bcff58db31eae0"
+  },
+  "id": "M4kLowEzTcbHe9rXb7HdA",
+  "tags": []
+}
